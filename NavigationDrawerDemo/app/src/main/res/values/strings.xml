@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">NavigationDrawerDemo</string>
+
+    <string-array name="app_features">
+        <item>Inbox</item>
+        <item>Sent</item>
+        <item>Draft</item>
+        <item>Spam</item>
+        <item>LogOut</item>
+    </string-array>
+</resources>
