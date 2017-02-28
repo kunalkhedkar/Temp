@@ -3,22 +3,24 @@ package self.edu.navigationdrawerdemo;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import android.app.FragmentManager;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends Activity {
 
     private ListView drawerList;
     private String[] app_features;
     private DrawerLayout drawerLayout;
-
+    private ActionBarDrawerToggle toggle;
     private final static String TAG = "DrawerDemo";
 
     @Override
@@ -38,6 +40,29 @@ public class MainActivity extends FragmentActivity {
 
     private void initDrawer() {
         initDrawerListView();
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.open_drawer, R.string.close_drawer);
+        drawerLayout.setDrawerListener(toggle);
+
+        toggle.syncState();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.drawer_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initDrawerListView() {
@@ -63,6 +88,8 @@ public class MainActivity extends FragmentActivity {
         replaceFragment(folerName);
         drawerList.setItemChecked(position, true);
         drawerLayout.closeDrawer(drawerList);
+
+        setTitle(folerName);
     }
 
     private void replaceFragment(String folerName) {
@@ -74,8 +101,8 @@ public class MainActivity extends FragmentActivity {
         bundle.putString(EmailFolderFragment.KEY_FOLDER_NAME, folerName);
         fragment.setArguments(bundle);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment).commit();
     }
 }
