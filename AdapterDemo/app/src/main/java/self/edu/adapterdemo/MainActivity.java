@@ -2,6 +2,8 @@ package self.edu.adapterdemo;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -25,6 +27,13 @@ public class MainActivity extends Activity {
         Gallery listView = (Gallery) findViewById(R.id.days_list);
         DaysAdapter adapter = new DaysAdapter(days);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO
+            }
+        });
     }
 
     private void populateDataSet() {
