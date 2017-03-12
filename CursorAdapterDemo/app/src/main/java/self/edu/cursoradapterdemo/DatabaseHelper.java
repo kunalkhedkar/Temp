@@ -10,7 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private final static String CREATE_TABLE_STUDENT_QUERY = "create table tbl_student(_id int,name string, roll_no integer)";
+    private final static String CREATE_TABLE_STUDENT_QUERY =
+            "create table tbl_student(_id int,name string, roll_no integer)";
 
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -23,6 +24,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+        // Do Nothing
     }
 }
