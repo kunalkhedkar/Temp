@@ -13,6 +13,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,8 +68,10 @@ public class MainActivity extends Activity implements Response.ErrorListener, Re
             progressDialog.dismiss();
         }
         Log.d(TAG, "onResponse() called with: response = [" + response + "]");
-        JSONObject jsonResponse;
 
+
+/*
+        JSONObject jsonResponse;
         try {
             jsonResponse = new JSONObject(response);
             JSONObject weatherObservation = jsonResponse.getJSONObject("weatherObservation");
@@ -75,8 +79,6 @@ public class MainActivity extends Activity implements Response.ErrorListener, Re
             stationName = weatherObservation.getString("stationName");
             cloudsInformation = weatherObservation.getString("clouds");
             humidity = weatherObservation.getInt("humidity");
-
-
             ((TextView) findViewById(R.id.temperature)).setText("Temperature=" + temperature);
             ((TextView) findViewById(R.id.station_name)).setText("Station=" + stationName);
             ((TextView) findViewById(R.id.clouds_information)).setText("Clouds=" + cloudsInformation);
@@ -84,6 +86,18 @@ public class MainActivity extends Activity implements Response.ErrorListener, Re
         } catch (JSONException e) {
             Log.e(TAG, "onResponse: ", e);
         }
+*/
+        // Using Gson library to create JAVA objects
+
+        Gson gson = new GsonBuilder().create();
+        WeatherInformation weatherInformation = gson.fromJson(response, WeatherInformation.class);
+        WeatherObservation weatherObservation = weatherInformation.getWeatherObservation();
+
+
+        ((TextView) findViewById(R.id.temperature)).setText("Temperature=" + weatherObservation.getTemperature());
+        ((TextView) findViewById(R.id.station_name)).setText("Station=" + weatherObservation.getStationName());
+        ((TextView) findViewById(R.id.clouds_information)).setText("Clouds=" + weatherObservation.getClouds());
+        ((TextView) findViewById(R.id.humidity)).setText("Humidity=" + weatherObservation.getHumidity().toString());
 
         Log.d(TAG, "onResponse: ");
     }
